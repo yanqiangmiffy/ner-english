@@ -59,7 +59,6 @@ class MemoryTagger(BaseEstimator,TransformerMixin):
         :param y:
         :return:
         """
-        print(self.memory)
         return [self.memory.get(x,'O') for x in X]
 
 from sklearn.preprocessing import LabelEncoder
@@ -72,7 +71,7 @@ class FeatureTransformer(BaseEstimator,TransformerMixin):
 
     def fit(self,X,y):
         words=X['Word'].tolist()
-        self.pos=X['Pos'].tolist() # 词性
+        self.pos=X['POS'].tolist() # 词性
         tags=X['Tag'].tolist()
         self.memory_tagger.fit(words,tags)
         self.tag_encoder.fit(tags)
@@ -86,7 +85,7 @@ class FeatureTransformer(BaseEstimator,TransformerMixin):
             else:
                 return -1
 
-        pos=X['Pos'].tolist()
+        pos=X['POS'].tolist()
         words=X['Word'].tolist()
         out=[]
 

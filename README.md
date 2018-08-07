@@ -107,6 +107,10 @@ nat = Natural Phenomenon 自然现象
     avg / total       0.97      0.97      0.97   1048575
   ```
 - 04_Bi-LSTM
+
+  句子长度统计：
+  ![](https://github.com/yanqiangmiffy/ner-english/blob/master/assets/sentence_length.png)
+  通过上图观察，句子最大长度max_len设置为50
   
   训练集和测试集：
   ```text
@@ -116,6 +120,7 @@ nat = Natural Phenomenon 自然现象
     y_test(4796,50,17)
   ```
   model:
+  ![](https://github.com/yanqiangmiffy/ner-english/blob/master/assets/BiLSTM.png)
   ```python
     input=Input(shape=(max_len,))
     model=Embedding(input_dim=n_words,output_dim=50,input_length=max_len)(input)

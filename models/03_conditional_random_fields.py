@@ -1,7 +1,6 @@
 # CRF
 import eli5
-import numpy as np
-from utils import load_data
+from models.utils import load_data
 from sklearn_crfsuite import CRF
 from sklearn.model_selection import cross_val_predict
 from sklearn_crfsuite.metrics import flat_classification_report

@@ -3,7 +3,7 @@
 # @Author  : quincyqiang
 # @File    : 01_memorization_baseline.py
 # @Software: PyCharm
-from utils import load_data
+from models.utils import load_data
 
 # 1 加载数据
 ner_dataset_dir='../data/ner_dataset.csv'

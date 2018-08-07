@@ -1,6 +1,6 @@
 # 提取word特征，然后随机森林分类
 import numpy as np
-from utils import load_data
+from models.utils import load_data
 from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import classification_report
 from sklearn.ensemble import RandomForestClassifier

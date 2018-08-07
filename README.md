@@ -109,7 +109,9 @@ nat = Natural Phenomenon 自然现象
 - 04_Bi-LSTM
 
   句子长度统计：
+  
   ![](https://github.com/yanqiangmiffy/ner-english/blob/master/assets/sentence_length.png)
+  
   通过上图观察，句子最大长度max_len设置为50
   
   训练集和测试集：
@@ -145,57 +147,30 @@ nat = Natural Phenomenon 自然现象
   ```
   测试结果：
   ```text
-      Word           Pred
-    Officials      : O
-    say            : O
-    the            : O
-    bomber         : O
-    detonated      : O
-    his            : O
-    explosives     : O
-    when           : O
-    police         : O
-    stopped        : O
-    his            : O
-    car            : O
-    for            : O
-    a              : O
-    search         : O
-    .              : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
-    ENDPAD         : O
+        Word           ||True ||Pred
+    ==============================
+    The            : O     O
+    French         : B-gpe B-gpe
+    news           : O     O
+    agency         : O     O
+    ,              : O     O
+    Agence         : B-org O
+    France         : I-org B-geo
+    Presse         : I-org I-geo
+    ,              : O     O
+    says           : O     O
+    one            : O     O
+    of             : O     O
+    its            : O     O
+    photographers  : O     O
+    has            : O     O
+    been           : O     O
+    kidnapped      : O     O
+    in             : O     O
+    the            : O     O
+    Gaza           : B-geo B-geo
+    Strip          : I-geo I-geo
+    .              : O     O
   ```
 ## 资料
 https://www.one-tab.com/page/9-sFlWS0TTO_Kbcrnv4bqA

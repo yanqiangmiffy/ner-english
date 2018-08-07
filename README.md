@@ -149,7 +149,7 @@ nat = Natural Phenomenon 自然现象
   
   测试结果：
   ```text
-        Word           ||True ||Pred
+    Word           ||True ||Pred
     ==============================
     The            : O     O
     French         : B-gpe B-gpe

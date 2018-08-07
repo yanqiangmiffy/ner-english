@@ -9,8 +9,8 @@ import numpy as np
 
 def load_data(filename):
     data=pd.read_csv(filename,encoding="latin1")
-    data=data.fillna(method="ffill")
-    # print(data.tail(10))
+    data=data.fillna(method="ffill") # 用前一个非缺失值去填充该缺失值
+    # print(data.head(10))
     # words=list(data['Word'].values)
     words=list(set(data['Word'].values))
     n_words=len(words)

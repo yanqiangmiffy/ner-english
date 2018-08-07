@@ -145,6 +145,8 @@ nat = Natural Phenomenon 自然现象
     Epoch 5/5
     38846/38846 [==============================] - 89s 2ms/step - loss: 0.0385 - acc: 0.9885 - val_loss: 0.0444 - val_acc: 0.9868
   ```
+  ![](https://github.com/yanqiangmiffy/ner-english/blob/master/assets/BiLSTM-result.png)
+  
   测试结果：
   ```text
         Word           ||True ||Pred

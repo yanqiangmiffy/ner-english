@@ -64,7 +64,6 @@ class MemoryTagger(BaseEstimator,TransformerMixin):
         :param y:
         :return:
         """
-        print(self.memory)
         return [self.memory.get(x,'O') for x in X]
 
 # tagger=MemoryTagger()

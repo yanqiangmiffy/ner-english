@@ -4,6 +4,7 @@
 ## 准备
 - 数据集：Kaggle-https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus/version/4
 - 词汇量：去重之后：`35178`
+- 句子：`47959` 
 - 实体标签含义：
 ```
 geo = Geographical Entity 地名
@@ -72,6 +73,124 @@ nat = Natural Phenomenon 自然现象
 
     avg / total       0.95      0.96      0.95   1048575
   ```
+- 03_CRF 条件随机场
+  
+  > 特征基本同上
+  ```python
+    crf=CRF(algorithm='lbfgs',
+            c1=0.1,
+            c2=0.1,
+            max_iterations=100,
+            all_possible_transitions=False)    
+  ```
+  ```text
+             precision    recall  f1-score   support
 
+      B-art       0.37      0.11      0.17       402
+      B-eve       0.52      0.35      0.42       308
+      B-geo       0.85      0.90      0.88     37644
+      B-gpe       0.97      0.94      0.95     15870
+      B-nat       0.66      0.37      0.47       201
+      B-org       0.78      0.72      0.75     20143
+      B-per       0.84      0.81      0.82     16990
+      B-tim       0.93      0.88      0.90     20333
+      I-art       0.11      0.03      0.04       297
+      I-eve       0.34      0.21      0.26       253
+      I-geo       0.82      0.79      0.80      7414
+      I-gpe       0.92      0.55      0.69       198
+      I-nat       0.61      0.27      0.38        51
+      I-org       0.81      0.79      0.80     16784
+      I-per       0.84      0.89      0.87     17251
+      I-tim       0.83      0.76      0.80      6528
+          O       0.99      0.99      0.99    887908
+
+    avg / total       0.97      0.97      0.97   1048575
+  ```
+- 04_Bi-LSTM
+  
+  训练集和测试集：
+  ```text
+    X_train:(43163, 50)
+    X_test(4796,50)
+    y_train(43163,50,17)
+    y_test(4796,50,17)
+  ```
+  model:
+  ```python
+    input=Input(shape=(max_len,))
+    model=Embedding(input_dim=n_words,output_dim=50,input_length=max_len)(input)
+    model=Dropout(0.1)(model)
+    model=Bidirectional(LSTM(units=100,return_sequences=True,recurrent_dropout=0.1))(model)
+    out=TimeDistributed(Dense(n_tags,activation='softmax'))(model) # softmax output layer
+    model=Model(input,out)
+    model.compile(optimizer='rmsprop',loss='categorical_crossentropy',metrics=['accuracy'])
+  ```
+  训练结果：
+  ```text
+    Epoch 1/5
+    38846/38846 [==============================] - 90s 2ms/step - loss: 0.1410 - acc: 0.9643 - val_loss: 0.0622 - val_acc: 0.9818
+    Epoch 2/5
+    38846/38846 [==============================] - 88s 2ms/step - loss: 0.0550 - acc: 0.9838 - val_loss: 0.0517 - val_acc: 0.9849
+    Epoch 3/5
+    38846/38846 [==============================] - 88s 2ms/step - loss: 0.0459 - acc: 0.9865 - val_loss: 0.0477 - val_acc: 0.9860
+    Epoch 4/5
+    38846/38846 [==============================] - 89s 2ms/step - loss: 0.0413 - acc: 0.9878 - val_loss: 0.0459 - val_acc: 0.9865
+    Epoch 5/5
+    38846/38846 [==============================] - 89s 2ms/step - loss: 0.0385 - acc: 0.9885 - val_loss: 0.0444 - val_acc: 0.9868
+  ```
+  测试结果：
+  ```text
+      Word           Pred
+    Officials      : O
+    say            : O
+    the            : O
+    bomber         : O
+    detonated      : O
+    his            : O
+    explosives     : O
+    when           : O
+    police         : O
+    stopped        : O
+    his            : O
+    car            : O
+    for            : O
+    a              : O
+    search         : O
+    .              : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+    ENDPAD         : O
+  ```
 ## 资料
 https://www.one-tab.com/page/9-sFlWS0TTO_Kbcrnv4bqA

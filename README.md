@@ -268,5 +268,8 @@ nat = Natural Phenomenon 自然现象
     Zapatero       : I-per I-per
     .              : O     O
   ```
+## 演示
+  ![](https://github.com/yanqiangmiffy/ner-english/blob/master/assets/demo.png)
+
 ## 资料
 https://www.one-tab.com/page/9-sFlWS0TTO_Kbcrnv4bqA

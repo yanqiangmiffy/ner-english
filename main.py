@@ -65,10 +65,15 @@ def bilstm_predcit(model,test_sentence,x_test_sent):
     for _,p in zip(test_sentence,pred[0]):
         temp.append(tags[p])
 
+    # result = {
+    #     "method":"Bi-directional LSTM",
+    #     "sentence": " ".join(test_sentence),
+    #     "tags": " ".join(temp)
+    # }
     result = {
-        "method":"Bi-directional LSTM",
-        "sentence": " ".join(test_sentence),
-        "tags": " ".join(temp)
+        "method": "Bi-directional LSTM",
+        "sentence": test_sentence,
+        "tags": temp
     }
     return result
 
@@ -81,10 +86,15 @@ def bilstm_crf_predcit(model,test_sentence,x_test_sent):
     for _, p in zip(test_sentence, pred[0]):
         temp.append(tags[p])
 
+    # result = {
+    #     "method": "Bi-directional LSTM+CRF",
+    #     "sentence": " ".join(test_sentence),
+    #     "tags":" ".join(temp)
+    # }
     result = {
         "method": "Bi-directional LSTM+CRF",
-        "sentence": " ".join(test_sentence),
-        "tags":" ".join(temp)
+        "sentence": test_sentence,
+        "tags": temp
     }
     return result
 

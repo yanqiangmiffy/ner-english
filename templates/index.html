@@ -16,6 +16,13 @@
     <script type="text/javascript">
         window.history.replaceState(null, null, window.location.href);
     </script>
+    <style>
+        .col-sm-1{
+            padding-left: 0;
+            padding-right: 0;
+            border: 1px dashed #000000;
+        }
+    </style>
 </head>
 <body class="bg-light">
     <div class="container">
@@ -26,28 +33,11 @@
         </div>
 
         <div style="padding-bottom: 0.5cm">
-            <div class="card text-center bg-light" id="card-body">
+            <div id="card-body" class="card text-center bg-light">
                 <div class="card-body">
                     <input class="card-title form-control" type="text" id="input" name="input"
                            placeholder="Please input a english sentence. eg:Hawking was a Fellow of the Royal Society" />
                     <button class="card-text btn btn-outline-primary" id="submit">Find Entities</button>
-                </div>
-
-                <div class="card-footer bg-white" >
-                    <div class="lead text-center" >
-                        <strong>Bi-directional LSTM</strong>
-                    </div>
-
-                    <div class="row alert alert-primary" role="alert">
-                        <div class="col-sm-1">I</div>
-                        <div class="col-sm-1">love</div>
-                        <div class="col-sm-1">Paris</div>
-                    </div>
-                    <div class="row alert alert-success" role="alert">
-                        <div class="col-sm-1">O</div>
-                        <div class="col-sm-1">O</div>
-                        <div class="col-sm-1">B-LOC</div>
-                    </div>
                 </div>
             </div>
          </div>
@@ -57,7 +47,7 @@
     <script type=text/javascript>
       $(function() {
         $('button#submit').bind('click', function() {
-          $("div#result").remove();
+          $("div.result").remove();
           $.getJSON($SCRIPT_ROOT + '/ner', {
             test_sent: $('input[id="input"]').val(),
           }, function(data) {
@@ -66,21 +56,31 @@
                 method=data.result[i].method;
                 sentence=data.result[i].sentence;
                 tags=data.result[i].tags;
-                $("#card-body").append(" <div id=\"result\" class=\"card-footer bg-white\" >\n" +
-                    "                    <div class=\"row\">\n" +
-                    "                        <div class=\"col-md-3\" style=\"padding-top: 40px\">\n" +
-                    "                            <strong>"+method+"</strong>\n" +
-                    "                        </div>\n" +
-                    "                        <div class=\"col-md-9\">\n" +
-                    "                            <div class=\"alert alert-primary\" role=\"alert\">\n" +
-                    sentence +
-                    "                            </div>\n" +
-                    "                            <div class=\"alert alert-success\" role=\"alert\">\n" +
-                    tags +
-                    "                            </div>\n" +
-                    "                        </div>\n" +
+                $("#card-body").append("<div class=\"result card-footer bg-white\" >\n" +
+                    "                    <div class=\"lead text-center\" >\n" +
+                    "                        <strong>"+method+"</strong>\n" +
                     "                    </div>\n" +
-                    "                </div>")
+                    "\n" +
+                    "                    <div id=\"sentence"+i.toString()+"\" class=\"sentence row alert alert-primary\" role=\"alert\">\n" +
+                    "                    </div>\n" +
+                    "                    <div id=\"tags"+i.toString()+"\" class=\"tags row alert alert-success\" role=\"alert\">\n" +
+
+                    "                    </div>\n" +
+                    "                </div>");
+                for(var j=0;j<sentence.length;j++){
+                    let id="#"+"sentence"+i.toString();
+                    $(id).append("<div class=\"col-sm-1\">"+sentence[j]+"</div>");
+                }
+                for(var k=0;k<tags.length;k++){
+                    let id="#"+"tags"+i.toString();
+                    if(tags[k]!="O"){
+                        $(id).append("<div class=\"col-sm-1 text-danger\">"+tags[k]+"</div>")
+                    }else{
+                        $(id).append("<div class=\"col-sm-1\">"+tags[k]+"</div>")
+                    }
+
+                }
+
             }
           });
           return false;

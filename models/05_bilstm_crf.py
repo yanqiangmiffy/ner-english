@@ -7,8 +7,8 @@ from keras.layers import LSTM,Embedding,Dense,TimeDistributed,Dropout,Bidirectio
 from keras_contrib.layers import CRF
 from keras_contrib.utils import save_load_utils
 
-# import matplotlib.pyplot as plt
-# plt.style.use("ggplot")
+import matplotlib.pyplot as plt
+plt.style.use("ggplot")
 
 # 1 加载数据
 ner_dataset_dir='../data/ner_dataset.csv'
@@ -17,6 +17,7 @@ dataset_dir='../data/dataset.pkl'
 # 2 构建数据集
 n_words, n_tags, max_len, words,tags,\
 X_train, X_test, y_train, y_test=bulid_dataset(ner_dataset_dir,dataset_dir,max_len=50)
+
 
 def train():
     input = Input(shape=(max_len,))
@@ -33,15 +34,15 @@ def train():
     model.compile(optimizer="rmsprop", loss=crf.loss_function, metrics=[crf.accuracy])
     model.summary()
 
-    history = model.fit(X_train, np.array(y_train), batch_size=32, epochs=1,
+    history = model.fit(X_train, np.array(y_train), batch_size=32, epochs=5,
                         validation_split=0.1, verbose=1)
     save_load_utils.save_all_weights(model,filepath="../result/bilstm-crf.h5")
 
-    # hist = pd.DataFrame(history.history)
-    # plt.figure(figsize=(12,12))
-    # plt.plot(hist["acc"])
-    # plt.plot(hist["val_acc"])
-    # plt.show()
+    hist = pd.DataFrame(history.history)
+    plt.figure(figsize=(12,12))
+    plt.plot(hist["acc"])
+    plt.plot(hist["val_acc"])
+    plt.show()
 
 def sample():
     """

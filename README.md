@@ -121,7 +121,8 @@ nat = Natural Phenomenon 自然现象
     y_train(43163,50,17)
     y_test(4796,50,17)
   ```
-  model:
+  **model:**
+  
   ![](https://github.com/yanqiangmiffy/ner-english/blob/master/assets/BiLSTM.png)
   ```python
     input=Input(shape=(max_len,))
@@ -132,7 +133,7 @@ nat = Natural Phenomenon 自然现象
     model=Model(input,out)
     model.compile(optimizer='rmsprop',loss='categorical_crossentropy',metrics=['accuracy'])
   ```
-  训练结果：
+  **训练结果:**
   ```text
     Epoch 1/5
     38846/38846 [==============================] - 90s 2ms/step - loss: 0.1410 - acc: 0.9643 - val_loss: 0.0622 - val_acc: 0.9818
@@ -147,7 +148,7 @@ nat = Natural Phenomenon 自然现象
   ```
   ![](https://github.com/yanqiangmiffy/ner-english/blob/master/assets/BiLSTM-result.png)
   
-  测试结果：
+  **测试结果:**
   ```text
     Word           ||True ||Pred
     ==============================
@@ -172,6 +173,61 @@ nat = Natural Phenomenon 自然现象
     the            : O     O
     Gaza           : B-geo B-geo
     Strip          : I-geo I-geo
+    .              : O     O
+  ```
+- 05_Bi-LSTM+CRF
+  
+  **model:**
+  
+  ![](https://github.com/yanqiangmiffy/ner-english/blob/master/assets/BiLSTM-CRF.png)
+  ```python
+    input = Input(shape=(max_len,))
+    model = Embedding(input_dim=n_words + 1, output_dim=20,
+                      input_length=max_len, mask_zero=True)(input)  # 20-dim embedding
+    model = Bidirectional(LSTM(units=50, return_sequences=True,
+                               recurrent_dropout=0.1))(model)  # variational biLSTM
+    model = TimeDistributed(Dense(50, activation="relu"))(model)  # a dense layer as suggested by neuralNer
+    crf = CRF(n_tags)  # CRF layer
+    out = crf(model)  # output
+    model = Model(input, out)       
+  ```
+  
+  **训练结果:**
+  ```text
+   Train on 38846 samples, validate on 4317 samples
+   Epoch 1/5
+   38846/38846 [==============================] - 137s 4ms/step - loss: 0.1651 - acc: 0.9546 - val_loss: 0.0691 - val_acc: 0.9766
+   Epoch 2/5
+   38846/38846 [==============================] - 136s 4ms/step - loss: 0.0513 - acc: 0.9815 - val_loss: 0.0429 - val_acc: 0.9834
+   Epoch 3/5
+   38846/38846 [==============================] - 131s 3ms/step - loss: 0.0365 - acc: 0.9855 - val_loss: 0.0376 - val_acc: 0.9849
+   Epoch 4/5
+   38846/38846 [==============================] - 132s 3ms/step - loss: 0.0315 - acc: 0.9871 - val_loss: 0.0344 - val_acc: 0.9859
+   Epoch 5/5
+   38846/38846 [==============================] - 131s 3ms/step - loss: 0.0287 - acc: 0.9879 - val_loss: 0.0339 - val_acc: 0.9857
+  ```
+  ![](https://github.com/yanqiangmiffy/ner-english/blob/master/assets/BiLSTM-CRF-result.png)
+
+  **测试结果:**
+  ```text
+    Word           ||True ||Pred
+    ==============================
+    His            : O     O
+    schedule       : O     O
+    includes       : O     O
+    talks          : O     O
+    with           : O     O
+    King           : B-per B-per
+    Juan           : I-per I-per
+    Carlos         : I-per I-per
+    and            : O     O
+    Spanish        : B-gpe B-gpe
+    Prime          : B-per B-per
+    Minister       : I-per I-per
+    Jose           : I-per I-per
+    Luis           : I-per I-per
+    Rodriguez      : I-per I-per
+    Zapatero       : I-per I-per
     .              : O     O
   ```
 ## 资料

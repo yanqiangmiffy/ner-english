@@ -8,6 +8,7 @@ from sklearn.ensemble import RandomForestClassifier
 # 1 加载数据
 ner_dataset_dir='../data/ner_dataset.csv'
 data=load_data(ner_dataset_dir)
+print(data.head())
 
 def feature_map(word):
     """

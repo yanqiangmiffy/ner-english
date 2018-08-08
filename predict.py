@@ -19,7 +19,8 @@ dataset_dir='data/dataset.pkl'
 # 2 加载数据
 n_words, n_tags, max_len, words,tags,\
 X_train, X_test, y_train, y_test=bulid_dataset(ner_dataset_dir,dataset_dir,max_len=50)
-word2idx = {w: i for i, w in enumerate(words)}\
+word2idx = {w: i for i, w in enumerate(words)}
+
 # 测试数据
 test_sentence = ["Hawking", "was", "a", "Fellow", "of", "the", "Royal", "Society", ",", "a", "lifetime", "member",
                      "of", "the", "Pontifical", "Academy", "of", "Sciences", ",", "and", "a", "recipient", "of",
@@ -41,16 +42,6 @@ def bilstm_predcit():
 
 
 def bilstm_crf_predcit():
-
-    # 测试数据
-    test_sentence = ["Hawking", "was", "a", "Fellow", "of", "the", "Royal", "Society", ",", "a", "lifetime", "member",
-                     "of", "the", "Pontifical", "Academy", "of", "Sciences", ",", "and", "a", "recipient", "of",
-                     "the", "Presidential", "Medal", "of", "Freedom", ",", "the", "highest", "civilian", "award",
-                     "in", "the", "United", "States", "."]
-
-    x_test_sent = pad_sequences(sequences=[[word2idx.get(w, 0) for w in test_sentence]],
-                                padding="post", value=0, maxlen=max_len)
-
 
     # 重新初始化模型，构建配置信息，和train部分一样
     input = Input(shape=(max_len,))
@@ -75,4 +66,4 @@ def bilstm_crf_predcit():
 
 if __name__ == '__main__':
     bilstm_predcit()
-    # bilstm_crf_predcit()
+    bilstm_crf_predcit()

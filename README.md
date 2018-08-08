@@ -83,6 +83,7 @@ nat = Natural Phenomenon 自然现象
             max_iterations=100,
             all_possible_transitions=False)    
   ```
+  **训练结果:** `python 03_conditional_random_fields.py --action train`
   ```text
              precision    recall  f1-score   support
 
@@ -105,6 +106,43 @@ nat = Natural Phenomenon 自然现象
           O       0.99      0.99      0.99    887908
 
     avg / total       0.97      0.97      0.97   1048575
+  ```
+  **测试结果** `python 03_conditional_random_fields.py --action test`
+  ```text
+    Word           ||True ||Pred
+    ==============================
+    Helicopter     : O     O
+    gunships       : O     O
+    Saturday       : B-tim B-tim
+    pounded        : O     O
+    militant       : O     O
+    hideouts       : O     O
+    in             : O     O
+    the            : O     O
+    Orakzai        : B-geo B-geo
+    tribal         : O     O
+    region         : O     O
+    ,              : O     O
+    where          : O     O
+    many           : O     O
+    Taliban        : B-org B-org
+    militants      : O     O
+    are            : O     O
+    believed       : O     O
+    to             : O     O
+    have           : O     O
+    fled           : O     O
+    to             : O     O
+    avoid          : O     O
+    an             : O     O
+    earlier        : O     O
+    military       : O     O
+    offensive      : O     O
+    in             : O     O
+    nearby         : O     O
+    South          : B-geo B-geo
+    Waziristan     : I-geo I-geo
+    .              : O     O
   ```
 - 04_Bi-LSTM
 
@@ -133,7 +171,7 @@ nat = Natural Phenomenon 自然现象
     model=Model(input,out)
     model.compile(optimizer='rmsprop',loss='categorical_crossentropy',metrics=['accuracy'])
   ```
-  **训练结果:**
+  **训练结果:** `python 04_bilstm.py --action train`
   ```text
     Epoch 1/5
     38846/38846 [==============================] - 90s 2ms/step - loss: 0.1410 - acc: 0.9643 - val_loss: 0.0622 - val_acc: 0.9818
@@ -148,7 +186,7 @@ nat = Natural Phenomenon 自然现象
   ```
   ![](https://github.com/yanqiangmiffy/ner-english/blob/master/assets/BiLSTM-result.png)
   
-  **测试结果:**
+  **测试结果:** `python 04_bilstm.py --action test`
   ```text
     Word           ||True ||Pred
     ==============================
@@ -192,7 +230,7 @@ nat = Natural Phenomenon 自然现象
     model = Model(input, out)       
   ```
   
-  **训练结果:**
+  **训练结果:** `python 05_bilstm_crf.py --action train`
   ```text
    Train on 38846 samples, validate on 4317 samples
    Epoch 1/5
@@ -208,7 +246,7 @@ nat = Natural Phenomenon 自然现象
   ```
   ![](https://github.com/yanqiangmiffy/ner-english/blob/master/assets/BiLSTM-CRF-result.png)
 
-  **测试结果:**
+  **测试结果:** `python 05_bilstm_crf.py --action test`
   ```text
     Word           ||True ||Pred
     ==============================

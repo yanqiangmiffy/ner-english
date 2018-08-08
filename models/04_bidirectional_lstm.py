@@ -2,11 +2,11 @@ import argparse
 import numpy as np
 import pandas as pd
 from utils import bulid_dataset
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 from keras.models import Model,Input,load_model
 from keras.callbacks import ModelCheckpoint
 from keras.layers import LSTM,Embedding,Dense,TimeDistributed,Dropout,Bidirectional
-# plt.style.use("ggplot")
+plt.style.use("ggplot")
 
 # 1 加载数据
 ner_dataset_dir='../data/ner_dataset.csv'
@@ -38,11 +38,11 @@ def train():
     model.save(filepath="../result/bi-lstm.h5")
 
 
-    # hist = pd.DataFrame(history.history)
-    # plt.figure(figsize=(12,12))
-    # plt.plot(hist["acc"])
-    # plt.plot(hist["val_acc"])
-    # plt.show()
+    hist = pd.DataFrame(history.history)
+    plt.figure(figsize=(12,12))
+    plt.plot(hist["acc"])
+    plt.plot(hist["val_acc"])
+    plt.show()
 
 def sample():
     """

@@ -1,4 +1,5 @@
 # CRF
+import argparse
 from utils import load_data,SentenceGetter,sent2features,sent2labels
 from sklearn_crfsuite import CRF
 from sklearn.externals import joblib
@@ -34,16 +35,22 @@ def train():
 
 def sample():
     crf=joblib.load(filename="../result/crf.pkl")
-    pred=crf.predict([X[2]])[0]
+    pred=crf.predict([X[8]])[0]
 
 
     print("{:15}||{:5}||{}".format("Word", "True", "Pred"))
     print(30 * "=")
-    for w,p in zip(sentences[2],pred):
+    for w,p in zip(sentences[8],pred):
         print("{:15}: {:5} {}".format(w[0], w[2],p))
 
 
 
 
 if __name__ == '__main__':
-    sample()
+    parser=argparse.ArgumentParser(description="命名执行训练或者预测")
+    parser.add_argument('--action',required=True,help="input train or test")
+    args=parser.parse_args()
+    if args.action=='train':
+        train()
+    if args.action=='test':
+        sample()

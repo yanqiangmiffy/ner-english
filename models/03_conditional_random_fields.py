@@ -1,6 +1,6 @@
 # CRF
 import eli5
-from models.utils import load_data
+from models.utils import load_data,SentenceGetter
 from sklearn_crfsuite import CRF
 from sklearn.model_selection import cross_val_predict
 from sklearn_crfsuite.metrics import flat_classification_report
@@ -10,28 +10,6 @@ ner_dataset_dir='../data/ner_dataset.csv'
 data=load_data(ner_dataset_dir)
 
 # 2 构建数据集
-
-class SentenceGetter(object):
-
-    def __init__(self,data):
-        self.n_sent=1
-        self.data=data
-        self.empty=False
-
-        agg_func=lambda s:[(w,p,t) for w,p,t in zip(s["Word"].tolist(),
-                                                    s["POS"].tolist(),
-                                                    s["Tag"].tolist())]
-        self.grouped=self.data.groupby("Sentence #").apply(agg_func)
-        self.sentences=[s for s in self.grouped]
-    def get_next(self):
-        try:
-            s=self.grouped["Sentence: {}".format(self.n_sent)]
-            self.n_sent+=1
-            return s
-        except:
-            self.empty=True
-            return None
-
 getter=SentenceGetter(data)
 sent=getter.get_next()
 # print(sent)

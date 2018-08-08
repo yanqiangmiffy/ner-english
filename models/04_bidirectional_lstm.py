@@ -1,7 +1,7 @@
 import argparse
 import numpy as np
 import pandas as pd
-from utils import load_data,bulid_dataset
+from utils import bulid_dataset
 # import matplotlib.pyplot as plt
 from keras.models import Model,Input,load_model
 from keras.callbacks import ModelCheckpoint
@@ -10,12 +10,11 @@ from keras.layers import LSTM,Embedding,Dense,TimeDistributed,Dropout,Bidirectio
 
 # 1 加载数据
 ner_dataset_dir='../data/ner_dataset.csv'
-data=load_data(ner_dataset_dir)
-
+dataset_dir='../data/dataset.pkl'
 
 # 2 构建数据集
 n_words, n_tags, max_len, words,tags,\
-X_train, X_test, y_train, y_test=bulid_dataset(data)
+X_train, X_test, y_train, y_test=bulid_dataset(ner_dataset_dir,dataset_dir,max_len=50)
 
 # 3 构建和训练模型
 def train():

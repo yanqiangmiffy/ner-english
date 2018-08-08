@@ -14,11 +14,6 @@ from keras.utils import to_categorical
 def load_data(filename):
     data=pd.read_csv(filename,encoding="latin1")
     data=data.fillna(method="ffill") # 用前一个非缺失值去填充该缺失值
-    # print(data.head(10))
-    # words=list(data['Word'].values)
-    words=list(set(data['Word'].values))
-    n_words=len(words)
-    # print(n_words)
     return data
 
 
@@ -43,18 +38,25 @@ class SentenceGetter(object):
             return None
 
 
-def bulid_dataset(data):
+def bulid_dataset(ner_dataset_dir,dataset_dir,max_len=50):
+
     """
     构建数据
     :param data:
     :return:
     """
-    data_dir="../data/dataset.pkl"
-    if os.path.exists(data_dir):
+    data = pd.read_csv(ner_dataset_dir, encoding="latin1")
+    data = data.fillna(method="ffill")  # 用前一个非缺失值去填充该缺失值
+
+    # dataset_dir="../data/dataset.pkl"
+
+    if os.path.exists(dataset_dir):
         print("正在加载旧数据")
-        with open(data_dir,'rb') as in_data:
+        with open(dataset_dir,'rb') as in_data:
             data=pickle.load(in_data)
             return data
+
+
     # 标签和单词
     words = list(set(data["Word"].values))
     words.append("ENDPAD")
@@ -93,7 +95,7 @@ def bulid_dataset(data):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
     print(X_train.shape, np.array(y_test).shape)
     print("正在保存数据")
-    with open(data_dir,'wb') as out_data:
+    with open(dataset_dir,'wb') as out_data:
         pickle.dump([n_words, n_tags, max_len, words,tags,X_train, X_test, y_train, y_test],
                     out_data,pickle.HIGHEST_PROTOCOL)
 

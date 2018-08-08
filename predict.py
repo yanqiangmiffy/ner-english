@@ -35,6 +35,7 @@ def bilstm_predcit():
     model = load_model(filepath="result/bi-lstm.h5")
     p = model.predict(np.array([x_test_sent[0]]))
     p = np.argmax(p, axis=-1)
+
     print("{:15}||{}".format("Word", "Prediction"))
     print(30 * "=")
     for w, pred in zip(test_sentence, p[0]):

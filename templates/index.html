@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{{url_for('static',filename='icon/favicon.ico')}}" type="image/x-icon">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+    <script type="text/javascript" src="{{url_for('static',filename='js/jquery-3.3.1.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+    <title>Named Entity Recognition</title>
+    <script type=text/javascript>
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+    <script type="text/javascript">
+        window.history.replaceState(null, null, window.location.href);
+    </script>
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>Named Entity Recognition</h2>
+            <p class="lead">NER is a part of natural language processing (NLP) and information retrieval (IR).
+                The task in NER is to find the entity-type of words. Entities can, for example, be locations, time expressions or names..</p>
+        </div>
+
+        <div style="padding-bottom: 0.5cm">
+            <div class="card text-center bg-light" id="card-body">
+                <div class="card-body">
+                    <input class="card-title form-control" type="text" id="input" name="input"
+                           placeholder="Please input a english sentence. eg:Hawking was a Fellow of the Royal Society" />
+                    <button class="card-text btn btn-outline-primary" id="submit">Find Entities</button>
+                </div>
+
+                <div class="card-footer bg-white" >
+                    <div class="lead text-center" >
+                            <strong>Bi-directional LSTM</strong>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-primary" role="alert">
+                                I love Paris
+                            </div>
+                            <div class="alert alert-success" role="alert">
+                                O O    B-LOC
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div>
+
+
+    <script type=text/javascript>
+      $(function() {
+        $('button#submit').bind('click', function() {
+          $("div#result").remove();
+          $.getJSON($SCRIPT_ROOT + '/ner', {
+            test_sent: $('input[id="input"]').val(),
+          }, function(data) {
+            for (var i=0;i<data.result.length;i++)
+            {
+                method=data.result[i].method;
+                sentence=data.result[i].sentence;
+                tags=data.result[i].tags;
+                $("#card-body").append(" <div id=\"result\" class=\"card-footer bg-white\" >\n" +
+                    "                    <div class=\"row\">\n" +
+                    "                        <div class=\"col-md-3\" style=\"padding-top: 40px\">\n" +
+                    "                            <strong>"+method+"</strong>\n" +
+                    "                        </div>\n" +
+                    "                        <div class=\"col-md-9\">\n" +
+                    "                            <div class=\"alert alert-primary\" role=\"alert\">\n" +
+                    sentence +
+                    "                            </div>\n" +
+                    "                            <div class=\"alert alert-success\" role=\"alert\">\n" +
+                    tags +
+                    "                            </div>\n" +
+                    "                        </div>\n" +
+                    "                    </div>\n" +
+                    "                </div>")
+            }
+          });
+          return false;
+        });
+      });
+    </script>
+</body>
+</html>

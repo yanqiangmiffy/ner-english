@@ -269,7 +269,10 @@ nat = Natural Phenomenon 自然现象
     .              : O     O
   ```
 ## 演示
-  ![](https://github.com/yanqiangmiffy/ner-english/blob/master/assets/system.png)
+  ```text
+  The U.S. military in Iraq has sent a team of forensic experts to the northern city of Mosul to investigate the cause of Tuesday 's massive explosion at an American military base that killed 22 people and wounded 72 others .  
+  ```
+  ![](https://github.com/yanqiangmiffy/ner-english/blob/master/assets/demo.png)
 
 ## 资料
 https://www.one-tab.com/page/9-sFlWS0TTO_Kbcrnv4bqA
